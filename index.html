@@ -1,0 +1,897 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>СтанкоПром — металлообрабатывающие станки от производителя</title>
+<meta name="description" content="Производство и поставка металлообрабатывающих станков: токарные, фрезерные, сверлильные, гибочные. Гарантия 3 года, запуск за 14 дней, рассрочка 0%.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* primitive */
+  --p-ink: oklch(0.15 0.012 255);
+  --p-ink-2: oklch(0.19 0.014 255);
+  --p-ink-3: oklch(0.23 0.015 255);
+  --p-line: oklch(0.30 0.015 255);
+  --p-paper: oklch(0.94 0.005 250);
+  --p-paper-2: oklch(0.72 0.012 250);
+  --p-amber: oklch(0.78 0.16 75);
+  --p-amber-hot: oklch(0.84 0.17 78);
+  /* semantic */
+  --bg: var(--p-ink);
+  --surface: var(--p-ink-2);
+  --surface-2: var(--p-ink-3);
+  --line: var(--p-line);
+  --text: var(--p-paper);
+  --text-2: var(--p-paper-2);
+  --accent: var(--p-amber);
+  --accent-hot: var(--p-amber-hot);
+  --radius: 14px;
+  --font-display: "Unbounded", "Golos Text", sans-serif;
+  --font-body: "Golos Text", "Segoe UI", sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font:400 16px/1.65 var(--font-body);
+  color:var(--text);
+  background:var(--bg);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--accent);color:var(--p-ink)}
+/* типографика: корректные переносы слов (работает при lang="ru") + аккуратные концы строк */
+p,li,dd,figcaption,.hero__sub,.card__specs,.step p,.adv p,.about__list{
+  -webkit-hyphens:auto;hyphens:auto;
+  hyphenate-limit-chars:6 3 3;
+  text-wrap:pretty;
+}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;font:inherit;border:0;background:none;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:var(--font-display);line-height:1.15;text-wrap:balance}
+section{scroll-margin-top:90px}
+
+/* ---------- header ---------- */
+.header{
+  position:fixed;inset:0 0 auto 0;z-index:50;
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  background:color-mix(in oklch, var(--bg) 78%, transparent);
+  border-bottom:1px solid transparent;
+  transition:border-color .3s ease, background .3s ease;
+}
+.header.scrolled{border-bottom-color:var(--line)}
+.header__in{display:flex;align-items:center;justify-content:space-between;gap:24px;height:72px}
+.logo{display:flex;align-items:center;gap:12px;font-family:var(--font-display);font-weight:700;font-size:17px;letter-spacing:.02em}
+.logo__mark{width:34px;height:34px;flex:none}
+.logo span{color:var(--accent)}
+.nav{display:flex;gap:28px}
+.nav a{font-size:14px;font-weight:500;color:var(--text-2);transition:color .2s ease;position:relative}
+.nav a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--accent);transition:width .25s ease}
+.nav a:hover{color:var(--text)}
+.nav a:hover::after{width:100%}
+.header .btn{padding:11px 22px;font-size:13px}
+.burger{display:none;flex-direction:column;gap:5px;padding:10px}
+.burger i{display:block;width:24px;height:2px;background:var(--text);transition:transform .25s ease,opacity .25s ease}
+.burger.open i:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger.open i:nth-child(2){opacity:0}
+.burger.open i:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  padding:15px 30px;border-radius:8px;
+  font-weight:600;font-size:15px;line-height:1;
+  transition:transform .2s ease,background .2s ease,box-shadow .2s ease,color .2s ease,border-color .2s ease;
+}
+.btn--primary{background:var(--accent);color:var(--p-ink)}
+.btn--primary:hover{background:var(--accent-hot);transform:translateY(-2px);box-shadow:0 10px 30px -8px color-mix(in oklch, var(--accent) 55%, transparent)}
+.btn--primary:active{transform:translateY(0)}
+.btn--ghost{border:1px solid var(--line);color:var(--text)}
+.btn--ghost:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.btn--sm{padding:12px 20px;font-size:13px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:100dvh;display:flex;align-items:center;padding:130px 0 70px;overflow:hidden}
+.hero__bgimg{
+  position:absolute;inset:0 0 0 auto;height:100%;width:min(62%,920px);
+  object-fit:cover;object-position:center right;opacity:.55;pointer-events:none;
+  -webkit-mask-image:linear-gradient(100deg, transparent 8%, #000 58%);
+  mask-image:linear-gradient(100deg, transparent 8%, #000 58%);
+}
+#hero-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(60% 55% at 75% 30%, color-mix(in oklch, var(--accent) 12%, transparent), transparent 70%),
+    linear-gradient(180deg, transparent 55%, var(--bg) 100%);
+}
+.hero__in{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center;width:100%}
+.hero__in>*{min-width:0}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);
+  margin-bottom:22px;
+}
+.eyebrow::before{content:"";width:28px;height:1px;background:var(--accent)}
+.hero h1{font-size:clamp(26px,3.6vw,44px);font-weight:900;letter-spacing:-.01em;margin-bottom:24px;overflow-wrap:break-word;hyphens:auto}
+.hero h1 em{font-style:normal;color:var(--accent);position:relative}
+.hero__sub{font-size:18px;color:var(--text-2);max-width:56ch;margin-bottom:34px}
+.hero__cta{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:44px}
+.hero__chips{display:flex;gap:12px;flex-wrap:wrap}
+.chip{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:9px 16px;border:1px solid var(--line);border-radius:100px;
+  font-size:13px;font-weight:500;color:var(--text-2);
+  background:color-mix(in oklch, var(--surface) 60%, transparent);
+}
+.chip i{width:6px;height:6px;border-radius:50%;background:var(--accent);flex:none}
+
+/* hero panel */
+.hero__panel{
+  border:1px solid var(--line);border-radius:var(--radius);
+  background:color-mix(in oklch, var(--surface) 82%, transparent);
+  backdrop-filter:blur(8px);
+  padding:28px;position:relative;overflow:hidden;
+}
+.hero__panel::before{
+  content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(90deg, transparent 0 39px, color-mix(in oklch, var(--text) 4%, transparent) 39px 40px),
+             repeating-linear-gradient(0deg, transparent 0 39px, color-mix(in oklch, var(--text) 4%, transparent) 39px 40px);
+  pointer-events:none;
+}
+.hero__panel-tag{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-2);margin-bottom:16px;display:flex;justify-content:space-between}
+.hero__panel-tag b{color:var(--accent)}
+.spec-rows{display:grid;gap:0;position:relative}
+.spec-row{display:flex;justify-content:space-between;gap:16px;padding:13px 2px;border-bottom:1px dashed var(--line);font-size:14px}
+.spec-row:last-child{border-bottom:0}
+.spec-row dt{color:var(--text-2)}
+.spec-row dd{font-weight:600;font-variant-numeric:tabular-nums}
+.spec-row dd.hl{color:var(--accent)}
+
+/* stats */
+.stats{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--surface)}
+.stats__in{display:grid;grid-template-columns:repeat(4,1fr)}
+.stat{padding:38px 24px;border-left:1px solid var(--line);text-align:left}
+.stat:first-child{border-left:0}
+.stat__num{font-family:var(--font-display);font-weight:700;font-size:clamp(28px,3vw,40px);color:var(--accent);font-variant-numeric:tabular-nums}
+.stat__label{font-size:13px;color:var(--text-2);margin-top:6px}
+
+/* ---------- sections common ---------- */
+.section{padding:100px 0}
+.section--alt{background:var(--surface)}
+.sec-head{max-width:640px;margin-bottom:56px}
+.sec-head h2{font-size:clamp(24px,3.2vw,38px);font-weight:700;margin-bottom:16px}
+.sec-head p{color:var(--text-2);font-size:17px}
+
+/* advantages */
+.adv-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.adv{
+  border:1px solid var(--line);border-radius:var(--radius);padding:30px 26px;
+  background:var(--surface);
+  transition:transform .25s ease,border-color .25s ease,background .25s ease;
+  position:relative;overflow:hidden;
+}
+.adv::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:2px;
+  background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .35s ease;
+}
+.adv:hover{transform:translateY(-6px);border-color:color-mix(in oklch, var(--accent) 45%, var(--line))}
+.adv:hover::after{transform:scaleX(1)}
+.adv__icon{width:46px;height:46px;border-radius:10px;background:color-mix(in oklch, var(--accent) 14%, transparent);display:grid;place-items:center;margin-bottom:20px}
+.adv__icon svg{width:24px;height:24px;stroke:var(--accent)}
+.adv h3{font-size:16px;font-weight:700;margin-bottom:10px;font-family:var(--font-body)}
+.adv p{font-size:14px;color:var(--text-2)}
+
+/* catalog */
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px}
+.filter{
+  padding:10px 20px;border:1px solid var(--line);border-radius:100px;
+  font-size:13px;font-weight:600;color:var(--text-2);
+  transition:all .2s ease;
+}
+.filter:hover{border-color:var(--accent);color:var(--text)}
+.filter.active{background:var(--accent);border-color:var(--accent);color:var(--p-ink)}
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{
+  border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+  background:var(--surface);display:flex;flex-direction:column;
+  transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease,opacity .3s ease;
+}
+.card:hover{transform:translateY(-6px);border-color:color-mix(in oklch, var(--accent) 45%, var(--line));box-shadow:0 24px 50px -24px rgba(0,0,0,.6)}
+.card.hidden-card{display:none}
+.card__viz{
+  height:180px;background:var(--surface-2);position:relative;display:grid;place-items:center;overflow:hidden;
+}
+.card__viz::before{
+  content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(90deg, transparent 0 29px, color-mix(in oklch, var(--text) 5%, transparent) 29px 30px),
+             repeating-linear-gradient(0deg, transparent 0 29px, color-mix(in oklch, var(--text) 5%, transparent) 29px 30px);
+}
+.card__viz svg{width:150px;height:110px;position:relative;stroke:var(--text-2);transition:stroke .3s ease,transform .4s ease}
+.card:hover .card__viz svg{stroke:var(--accent);transform:scale(1.05)}
+.card__tag{
+  position:absolute;top:14px;left:14px;z-index:2;
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:6px 12px;border-radius:100px;background:color-mix(in oklch, var(--bg) 75%, transparent);
+  border:1px solid var(--line);color:var(--text-2);backdrop-filter:blur(4px);
+}
+.card__body{padding:24px;display:flex;flex-direction:column;gap:14px;flex:1}
+.card__body h3{font-size:17px;font-weight:700;font-family:var(--font-body)}
+.card__specs{display:grid;gap:8px;font-size:13px;color:var(--text-2)}
+.card__specs li{display:flex;gap:8px;list-style:none;align-items:baseline}
+.card__specs li::before{content:"—";color:var(--accent);flex:none}
+.card__foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:16px;border-top:1px solid var(--line)}
+.card__price{font-weight:700;font-size:15px}
+.card__price small{display:block;font-weight:400;font-size:11px;color:var(--text-2)}
+.cat-note{margin-top:28px;font-size:14px;color:var(--text-2);display:flex;align-items:center;gap:10px}
+.cat-note b{color:var(--accent)}
+
+/* promos */
+.promo-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:20px}
+.promo{
+  border:1px solid var(--line);border-radius:var(--radius);padding:36px;
+  position:relative;overflow:hidden;background:var(--surface);
+}
+.promo--hot{
+  background:linear-gradient(135deg, color-mix(in oklch, var(--accent) 16%, var(--surface)), var(--surface) 60%);
+  border-color:color-mix(in oklch, var(--accent) 45%, var(--line));
+}
+.promo__badge{
+  display:inline-block;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--p-ink);background:var(--accent);padding:6px 14px;border-radius:100px;margin-bottom:20px;
+}
+.promo h3{font-size:clamp(20px,2.2vw,26px);font-weight:700;margin-bottom:14px;font-family:var(--font-display)}
+.promo p{color:var(--text-2);font-size:15px;max-width:48ch;margin-bottom:24px}
+.countdown{display:flex;gap:14px;margin-bottom:26px}
+.countdown__cell{
+  min-width:74px;text-align:center;padding:12px 10px;
+  border:1px solid var(--line);border-radius:10px;background:color-mix(in oklch, var(--bg) 55%, transparent);
+}
+.countdown__num{font-family:var(--font-display);font-weight:700;font-size:26px;color:var(--accent);font-variant-numeric:tabular-nums}
+.countdown__lab{font-size:11px;color:var(--text-2);text-transform:uppercase;letter-spacing:.08em;margin-top:4px}
+.promo__list{display:grid;gap:12px;font-size:14px;color:var(--text-2);margin-bottom:26px}
+.promo__list li{list-style:none;display:flex;gap:10px;align-items:baseline}
+.promo__list li::before{content:"✓";color:var(--accent);font-weight:700}
+
+/* about */
+.about__grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.about__grid>*,.lead__grid>*{min-width:0}
+.about__text p{color:var(--text-2);font-size:16px;margin-bottom:18px}
+.about__text strong{color:var(--text)}
+.about__list{display:grid;gap:14px;margin-top:26px}
+.about__list li{list-style:none;display:flex;gap:14px;align-items:flex-start;font-size:15px}
+.about__list svg{width:20px;height:20px;stroke:var(--accent);flex:none;margin-top:3px}
+.about__viz{
+  border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);
+  padding:34px;position:relative;overflow:hidden;
+}
+.about__viz::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(70% 60% at 30% 20%, color-mix(in oklch, var(--accent) 10%, transparent), transparent 70%);
+}
+.big-num{font-family:var(--font-display);font-weight:900;font-size:clamp(56px,7vw,96px);color:var(--accent);line-height:1;position:relative}
+.about__viz figcaption{position:relative;margin-top:12px;color:var(--text-2);font-size:15px;max-width:34ch}
+.about__viz .mini-grid{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:28px}
+.mini-cell{border:1px solid var(--line);border-radius:10px;padding:16px;background:color-mix(in oklch, var(--bg) 45%, transparent)}
+.mini-cell b{font-family:var(--font-display);font-size:20px;color:var(--text)}
+.mini-cell span{display:block;font-size:12px;color:var(--text-2);margin-top:4px}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;counter-reset:step}
+.step{
+  border:1px solid var(--line);border-radius:var(--radius);padding:30px 26px;background:var(--surface);
+  position:relative;transition:transform .25s ease,border-color .25s ease;
+}
+.step:hover{transform:translateY(-6px);border-color:color-mix(in oklch, var(--accent) 45%, var(--line))}
+.step__n{
+  font-family:var(--font-display);font-weight:900;font-size:15px;color:var(--p-ink);
+  width:40px;height:40px;border-radius:10px;background:var(--accent);
+  display:grid;place-items:center;margin-bottom:20px;
+}
+.step h3{font-size:16px;font-family:var(--font-body);font-weight:700;margin-bottom:10px}
+.step p{font-size:14px;color:var(--text-2)}
+
+/* lead form */
+.lead{position:relative;overflow:hidden}
+.lead::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(50% 60% at 80% 20%, color-mix(in oklch, var(--accent) 10%, transparent), transparent 70%);
+  pointer-events:none;
+}
+.lead__grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;position:relative}
+.lead__info h2{font-size:clamp(24px,3.2vw,38px);font-weight:700;margin-bottom:18px}
+.lead__info p{color:var(--text-2);font-size:16px;margin-bottom:26px;max-width:46ch}
+.lead__contacts{display:grid;gap:14px;font-size:15px}
+.lead__contacts a{display:flex;gap:12px;align-items:center;font-weight:600;transition:color .2s ease}
+.lead__contacts a:hover{color:var(--accent)}
+.lead__contacts svg{width:20px;height:20px;stroke:var(--accent);flex:none}
+.form{
+  border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);
+  padding:36px;display:grid;gap:18px;
+}
+.form__title{font-family:var(--font-display);font-weight:700;font-size:19px}
+.field{display:grid;gap:8px}
+.field label{font-size:13px;font-weight:600;color:var(--text-2)}
+.field input,.field textarea,.field select{
+  width:100%;padding:14px 16px;border-radius:10px;
+  border:1px solid var(--line);background:var(--bg);color:var(--text);
+  font:inherit;font-size:15px;
+  transition:border-color .2s ease,box-shadow .2s ease;
+}
+.field input::placeholder,.field textarea::placeholder{color:color-mix(in oklch, var(--text-2) 70%, transparent)}
+.field input:focus,.field textarea:focus,.field select:focus{
+  outline:none;border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in oklch, var(--accent) 20%, transparent);
+}
+.field .err{display:none;font-size:12px;color:oklch(0.72 0.19 25)}
+.field.invalid input,.field.invalid textarea{border-color:oklch(0.62 0.19 25)}
+.field.invalid .err{display:block}
+.form__note{font-size:12px;color:var(--text-2)}
+.form-success{
+  display:none;text-align:center;padding:30px 10px;
+}
+.form-success.show{display:grid;gap:14px;place-items:center;animation:pop .4s ease both}
+.form-success svg{width:56px;height:56px;stroke:var(--accent)}
+.form-success b{font-family:var(--font-display);font-size:18px}
+.form-success p{font-size:14px;color:var(--text-2);max-width:36ch}
+@keyframes pop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+
+/* footer */
+.footer{border-top:1px solid var(--line);padding:44px 0;background:var(--surface)}
+.footer__in{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+.footer p{font-size:13px;color:var(--text-2)}
+.footer .tel{font-family:var(--font-display);font-weight:700;font-size:18px;transition:color .2s ease}
+.footer .tel:hover{color:var(--accent)}
+
+/* modal */
+.modal{
+  position:fixed;inset:0;z-index:100;display:none;place-items:center;padding:20px;
+}
+.modal.open{display:grid}
+.modal__backdrop{position:absolute;inset:0;background:rgba(5,8,14,.72);backdrop-filter:blur(6px);animation:fade .25s ease both}
+.modal__box{
+  position:relative;width:min(480px,100%);
+  border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);
+  padding:34px;animation:pop .3s ease both;max-height:90dvh;overflow:auto;
+}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.modal__close{
+  position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:10px;
+  display:grid;place-items:center;border:1px solid var(--line);color:var(--text-2);
+  transition:all .2s ease;
+}
+.modal__close:hover{border-color:var(--accent);color:var(--accent);transform:rotate(90deg)}
+.modal__close svg{width:16px;height:16px;stroke:currentColor}
+.modal__title{font-family:var(--font-display);font-weight:700;font-size:20px;margin-bottom:6px;padding-right:40px}
+.modal__sub{font-size:14px;color:var(--text-2);margin-bottom:22px}
+.modal__sub b{color:var(--accent)}
+
+/* reveal animation: content visible by default; JS "arms" the hidden state
+   only when IntersectionObserver is available, so content never depends on animation */
+.reveal.armed{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.armed.visible{opacity:1;transform:none}
+.reveal[data-delay="1"]{transition-delay:.1s}
+.reveal[data-delay="2"]{transition-delay:.2s}
+.reveal[data-delay="3"]{transition-delay:.3s}
+
+/* ticker */
+.ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:16px 0;background:var(--bg)}
+.ticker__track{display:flex;gap:48px;width:max-content;animation:ticker 28s linear infinite}
+.ticker__track span{font-family:var(--font-display);font-size:13px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2);white-space:nowrap;display:flex;align-items:center;gap:48px}
+.ticker__track span::after{content:"";width:6px;height:6px;background:var(--accent);border-radius:50%}
+@keyframes ticker{to{transform:translateX(-50%)}}
+
+/* responsive */
+@media (max-width:1024px){
+  .hero__bgimg{width:100%;opacity:.32;
+    -webkit-mask-image:linear-gradient(180deg, transparent 5%, #000 60%);
+    mask-image:linear-gradient(180deg, transparent 5%, #000 60%);
+  }
+  .hero__in{grid-template-columns:1fr;gap:44px}
+  .hero__panel{max-width:560px}
+  .adv-grid{grid-template-columns:repeat(2,1fr)}
+  .cat-grid{grid-template-columns:repeat(2,1fr)}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  .promo-grid{grid-template-columns:1fr}
+  .about__grid,.lead__grid{grid-template-columns:1fr;gap:44px}
+  .stats__in{grid-template-columns:repeat(2,1fr)}
+  .stat:nth-child(3){border-left:0}
+  .stat{border-top:1px solid var(--line)}
+  .stat:nth-child(-n+2){border-top:0}
+}
+@media (max-width:680px){
+  .section{padding:70px 0}
+  .nav{
+    position:fixed;inset:72px 0 auto 0;flex-direction:column;gap:0;
+    background:var(--surface);border-bottom:1px solid var(--line);
+    padding:8px 24px 20px;display:none;
+  }
+  .nav.open{display:flex}
+  .nav a{padding:14px 0;border-bottom:1px solid var(--line);font-size:15px}
+  .nav a:last-child{border-bottom:0}
+  .burger{display:flex}
+  .header .btn{display:none}
+  .cat-grid,.adv-grid,.steps{grid-template-columns:1fr}
+  .countdown__cell{min-width:64px}
+  .form,.modal__box{padding:26px 20px}
+  .promo{padding:26px 20px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .ticker__track{animation:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== HEADER ===================== -->
+<header class="header" id="header">
+  <div class="wrap header__in">
+    <a class="logo" href="#top" aria-label="СтанкоПром — на главную">
+      <svg class="logo__mark" viewBox="0 0 34 34" fill="none" aria-hidden="true">
+        <rect x="2" y="2" width="30" height="30" rx="7" stroke="var(--accent)" stroke-width="2.5"/>
+        <path d="M9 22V12l8 6 8-6v10" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Станко<span>Пром</span>
+    </a>
+    <nav class="nav" id="nav" aria-label="Основная навигация">
+      <a href="#catalog">Каталог</a>
+      <a href="#promo">Акции</a>
+      <a href="#about">О компании</a>
+      <a href="#steps">Этапы работы</a>
+      <a href="#lead">Контакты</a>
+    </nav>
+    <a class="btn btn--primary" href="#lead">Оставить заявку</a>
+    <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false">
+      <i></i><i></i><i></i>
+    </button>
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero" id="top">
+  <canvas id="hero-canvas" aria-hidden="true"></canvas>
+  <img class="hero__bgimg" src="./hero-machine.jpg" alt="" aria-hidden="true" fetchpriority="high">
+  <div class="wrap hero__in">
+    <div>
+      <span class="eyebrow">Собственное производство · с 2007 года</span>
+      <h1>Металлообрабатывающие станки <em>от производителя:</em> без посредников и переплат</h1>
+      <p class="hero__sub">Проектируем, производим и запускаем станки под вашу задачу. Гарантия 3 года, пусконаладка и обучение персонала — под ключ, доставка в любой регион России за 14 дней.</p>
+      <div class="hero__cta">
+        <a class="btn btn--primary" href="#catalog">Подобрать станок</a>
+        <a class="btn btn--ghost" href="#lead">Рассчитать стоимость</a>
+      </div>
+      <div class="hero__chips">
+        <span class="chip"><i></i>Гарантия 3 года</span>
+        <span class="chip"><i></i>Запуск за 14 дней</span>
+        <span class="chip"><i></i>Рассрочка 0%</span>
+        <span class="chip"><i></i>Сервис 24/7</span>
+      </div>
+    </div>
+    <div class="hero__panel reveal" aria-label="Ключевые параметры">
+      <div class="hero__panel-tag"><span>Спецификация поставки</span><b>SP-2026</b></div>
+      <dl class="spec-rows">
+        <div class="spec-row"><dt>Срок изготовления</dt><dd>от 10 раб. дней</dd></div>
+        <div class="spec-row"><dt>Доставка по РФ</dt><dd>7–14 дней</dd></div>
+        <div class="spec-row"><dt>Пусконаладка</dt><dd class="hl">включена в цену</dd></div>
+        <div class="spec-row"><dt>Обучение операторов</dt><dd class="hl">бесплатно</dd></div>
+        <div class="spec-row"><dt>Гарантия</dt><dd>36 месяцев</dd></div>
+        <div class="spec-row"><dt>Постгарантийный сервис</dt><dd>24/7</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TICKER ===================== -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker__track" id="ticker-track">
+    <span>Токарные станки</span><span>Фрезерные с ЧПУ</span><span>Сверлильные</span><span>Ленточнопильные</span><span>Гильотинные ножницы</span><span>Листогибочные прессы</span><span>Запчасти и сервис</span>
+  </div>
+</div>
+
+<!-- ===================== STATS ===================== -->
+<div class="stats">
+  <div class="wrap stats__in">
+    <div class="stat"><div class="stat__num"><span class="counter" data-to="18">0</span></div><div class="stat__label">лет производим станки</div></div>
+    <div class="stat"><div class="stat__num"><span class="counter" data-to="2400">0</span>+</div><div class="stat__label">станков выпущено и запущено</div></div>
+    <div class="stat"><div class="stat__num"><span class="counter" data-to="63">0</span></div><div class="stat__label">региона поставок</div></div>
+    <div class="stat"><div class="stat__num"><span class="counter" data-to="97">0</span>%</div><div class="stat__label">клиентов возвращаются за повторной закупкой</div></div>
+  </div>
+</div>
+
+<!-- ===================== ADVANTAGES ===================== -->
+<section class="section" id="advantages">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Почему мы</span>
+      <h2>Покупая у производителя, вы экономите до 30% бюджета</h2>
+      <p>Никаких дилерских наценок, мёртвых остатков и «перекупленных» комплектующих — только заводская комплектация и прямая ответственность.</p>
+    </div>
+    <div class="adv-grid">
+      <article class="adv reveal">
+        <div class="adv__icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg></div>
+        <h3>Собственный завод</h3>
+        <p>Полный цикл: от литья станины до финальной обкатки. Контролируем качество на каждом этапе.</p>
+      </article>
+      <article class="adv reveal" data-delay="1">
+        <div class="adv__icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <h3>Гарантия 3 года</h3>
+        <p>В 2–3 раза дольше, чем у перепродавцов китайского оборудования. Гарантийный ремонт — за наш счёт.</p>
+      </article>
+      <article class="adv reveal" data-delay="2">
+        <div class="adv__icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+        <h3>Запуск за 14 дней</h3>
+        <p>Доставим, установим, откалибруем и обучим ваших операторов. Станок работает — а не стоит в цеху.</p>
+      </article>
+      <article class="adv reveal" data-delay="3">
+        <div class="adv__icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <h3>Рассрочка 0% и лизинг</h3>
+        <p>Работаем с ведущими лизинговыми компаниями. Оборудование окупает само себя с первого месяца.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CATALOG ===================== -->
+<section class="section section--alt" id="catalog">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Каталог</span>
+      <h2>Популярные модели в наличии и под заказ</h2>
+      <p>Более 50 позиций: токарные, фрезерные, сверлильные, ленточнопильные и гибочные станки. Полные технические характеристики — в карточке каждой модели.</p>
+    </div>
+
+    <div class="filters reveal" role="group" aria-label="Фильтр каталога">
+      <button class="filter active" data-filter="all">Все</button>
+      <button class="filter" data-filter="lathe">Токарные</button>
+      <button class="filter" data-filter="mill">Фрезерные</button>
+      <button class="filter" data-filter="drill">Сверлильные</button>
+      <button class="filter" data-filter="bend">Гибочные</button>
+    </div>
+
+    <div class="cat-grid" id="cat-grid">
+
+      <article class="card reveal" data-cat="lathe">
+        <div class="card__viz">
+          <span class="card__tag">Токарный</span>
+          <svg viewBox="0 0 150 110" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="10" y="70" width="130" height="14" rx="2"/>
+            <rect x="14" y="84" width="16" height="18"/><rect x="120" y="84" width="16" height="18"/>
+            <rect x="18" y="34" width="34" height="36" rx="3"/>
+            <circle cx="52" cy="52" r="10"/><circle cx="52" cy="52" r="4"/>
+            <rect x="78" y="44" width="26" height="26" rx="2"/>
+            <path d="M104 57h22M126 44v26"/>
+            <path d="M60 40l14-8M60 64l14 8" opacity=".5"/>
+          </svg>
+        </div>
+        <div class="card__body">
+          <h3>Токарно-винторезный станок СП-16К20</h3>
+          <ul class="card__specs">
+            <li>Ø обработки над станиной — 400 мм</li>
+            <li>РМЦ — 1000 мм, проход шпинделя 52 мм</li>
+            <li>Мощность привода — 11 кВт</li>
+          </ul>
+          <div class="card__foot">
+            <div class="card__price">от 1 450 000 ₽<small>с НДС, пусконаладка включена</small></div>
+            <button class="btn btn--primary btn--sm" data-order="Токарно-винторезный станок СП-16К20">Запросить цену</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="card reveal" data-cat="mill" data-delay="1">
+        <div class="card__viz">
+          <span class="card__tag">Фрезерный · ЧПУ</span>
+          <svg viewBox="0 0 150 110" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="20" y="78" width="110" height="12" rx="2"/>
+            <rect x="30" y="90" width="14" height="14"/><rect x="106" y="90" width="14" height="14"/>
+            <rect x="34" y="18" width="82" height="12" rx="2"/>
+            <rect x="64" y="30" width="22" height="34" rx="2"/>
+            <path d="M75 64v10M71 74h8"/>
+            <path d="M40 66h70" stroke-dasharray="4 4"/>
+          </svg>
+        </div>
+        <div class="card__body">
+          <h3>Обрабатывающий центр СП-Ф650 с ЧПУ</h3>
+          <ul class="card__specs">
+            <li>Стол 800×420 мм, ход по осям 650/400/450</li>
+            <li>Шпиндель 8 000 об/мин, BT40</li>
+            <li>Стойка Fanuc / Siemens на выбор</li>
+          </ul>
+          <div class="card__foot">
+            <div class="card__price">от 4 900 000 ₽<small>с НДС, пусконаладка включена</small></div>
+            <button class="btn btn--primary btn--sm" data-order="Обрабатывающий центр СП-Ф650 с ЧПУ">Запросить цену</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="card reveal" data-cat="drill" data-delay="2">
+        <div class="card__viz">
+          <span class="card__tag">Сверлильный</span>
+          <svg viewBox="0 0 150 110" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="26" y="90" width="98" height="10" rx="2"/>
+            <rect x="34" y="24" width="10" height="66"/>
+            <rect x="34" y="24" width="72" height="14" rx="3"/>
+            <rect x="92" y="38" width="14" height="20"/>
+            <path d="M99 58v14M96 72h6"/>
+            <rect x="70" y="76" width="40" height="8" rx="2"/>
+          </svg>
+        </div>
+        <div class="card__body">
+          <h3>Радиально-сверлильный станок СП-РС40</h3>
+          <ul class="card__specs">
+            <li>Ø сверления в стали — до 40 мм</li>
+            <li>Вылет шпинделя — 1600 мм</li>
+            <li>Мощность двигателя — 3 кВт</li>
+          </ul>
+          <div class="card__foot">
+            <div class="card__price">от 890 000 ₽<small>с НДС, пусконаладка включена</small></div>
+            <button class="btn btn--primary btn--sm" data-order="Радиально-сверлильный станок СП-РС40">Запросить цену</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="card reveal" data-cat="lathe">
+        <div class="card__viz">
+          <span class="card__tag">Токарный · ЧПУ</span>
+          <svg viewBox="0 0 150 110" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="14" y="30" width="122" height="60" rx="6"/>
+            <rect x="26" y="44" width="30" height="30" rx="3"/>
+            <circle cx="56" cy="59" r="9"/>
+            <path d="M76 59h34M110 46v26"/>
+            <rect x="92" y="14" width="30" height="12" rx="2"/>
+          </svg>
+        </div>
+        <div class="card__body">
+          <h3>Токарный станок с ЧПУ СП-Т400</h3>
+          <ul class="card__specs">
+            <li>Ø обработки — 400 мм, РМЦ 750 мм</li>
+            <li>Револьверная головка на 8 позиций</li>
+            <li>Стойка Fanuc 0i-TF, гидропатрон в комплекте</li>
+          </ul>
+          <div class="card__foot">
+            <div class="card__price">от 3 600 000 ₽<small>с НДС, пусконаладка включена</small></div>
+            <button class="btn btn--primary btn--sm" data-order="Токарный станок с ЧПУ СП-Т400">Запросить цену</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="card reveal" data-cat="bend" data-delay="1">
+        <div class="card__viz">
+          <span class="card__tag">Гибочный</span>
+          <svg viewBox="0 0 150 110" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="24" y="16" width="102" height="16" rx="3"/>
+            <path d="M40 32v22M110 32v22"/>
+            <path d="M60 62l15 12 15-12"/>
+            <rect x="30" y="80" width="90" height="10" rx="2"/>
+            <rect x="46" y="90" width="12" height="12"/><rect x="92" y="90" width="12" height="12"/>
+          </svg>
+        </div>
+        <div class="card__body">
+          <h3>Листогибочный пресс СП-ЛГ100</h3>
+          <ul class="card__specs">
+            <li>Усилие — 100 т, длина гибки 3200 мм</li>
+            <li>ЧПУ-контроллер Delem DA-41</li>
+            <li>Задний упор с сервоприводом</li>
+          </ul>
+          <div class="card__foot">
+            <div class="card__price">от 3 200 000 ₽<small>с НДС, пусконаладка включена</small></div>
+            <button class="btn btn--primary btn--sm" data-order="Листогибочный пресс СП-ЛГ100">Запросить цену</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="card reveal" data-cat="bend" data-delay="2">
+        <div class="card__viz">
+          <span class="card__tag">Гибочный · Резка</span>
+          <svg viewBox="0 0 150 110" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="26" y="14" width="98" height="14" rx="3"/>
+            <path d="M42 28v18M108 28v18"/>
+            <path d="M52 46l40 26" />
+            <rect x="34" y="76" width="82" height="10" rx="2"/>
+            <rect x="44" y="86" width="12" height="14"/><rect x="94" y="86" width="12" height="14"/>
+          </svg>
+        </div>
+        <div class="card__body">
+          <h3>Гильотинные ножницы СП-ГН6</h3>
+          <ul class="card__specs">
+            <li>Рез металла 6×2000 мм</li>
+            <li>Гидравлический привод, задний упор с ЧПУ</li>
+            <li>Защитная шторка и лазерная разметка</li>
+          </ul>
+          <div class="card__foot">
+            <div class="card__price">от 1 750 000 ₽<small>с НДС, пусконаладка включена</small></div>
+            <button class="btn btn--primary btn--sm" data-order="Гильотинные ножницы СП-ГН6">Запросить цену</button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+    <p class="cat-note reveal">Это демонстрационная витрина — в полной версии сайта каталог на <b>50+ позиций</b> с фильтрами, подробными характеристиками и фотографиями каждой модели.</p>
+  </div>
+</section>
+
+<!-- ===================== PROMO ===================== -->
+<section class="section" id="promo">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Акции</span>
+      <h2>Выгодные условия этого месяца</h2>
+    </div>
+    <div class="promo-grid">
+      <article class="promo promo--hot reveal">
+        <span class="promo__badge">До конца месяца</span>
+        <h3>Рассрочка 0% на весь каталог</h3>
+        <p>Первоначальный взнос от 20%, срок до 12 месяцев, без переплат и скрытых комиссий. Решение по заявке — за 1 рабочий день.</p>
+        <div class="countdown" id="countdown" aria-label="До конца акции осталось">
+          <div class="countdown__cell"><div class="countdown__num" id="cd-d">00</div><div class="countdown__lab">дней</div></div>
+          <div class="countdown__cell"><div class="countdown__num" id="cd-h">00</div><div class="countdown__lab">часов</div></div>
+          <div class="countdown__cell"><div class="countdown__num" id="cd-m">00</div><div class="countdown__lab">минут</div></div>
+          <div class="countdown__cell"><div class="countdown__num" id="cd-s">00</div><div class="countdown__lab">секунд</div></div>
+        </div>
+        <a class="btn btn--primary" href="#lead">Зафиксировать условия</a>
+      </article>
+      <article class="promo reveal" data-delay="1">
+        <span class="promo__badge">Комплект</span>
+        <h3>Пусконаладка −50% при заказе станка с ЧПУ</h3>
+        <ul class="promo__list">
+          <li>Выезд инженера в любой регион</li>
+          <li>Калибровка и пробная обработка детали</li>
+          <li>Обучение двух операторов</li>
+          <li>Годовой запас расходников в подарок</li>
+        </ul>
+        <a class="btn btn--ghost" href="#lead">Получить предложение</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ABOUT ===================== -->
+<section class="section section--alt" id="about">
+  <div class="wrap about__grid">
+    <div class="about__text reveal">
+      <span class="eyebrow">О компании</span>
+      <h2>Завод, который отвечает за каждый станок лично</h2>
+      <p>«СтанкоПром» — российский производитель металлообрабатывающего оборудования. С 2007 года мы выпустили более <strong>2 400 станков</strong>, которые работают на предприятиях от Калининграда до Владивостока.</p>
+      <p>Мы не перепродаём чужое оборудование — мы его <strong>проектируем и собираем сами</strong>, поэтому отвечаем за результат, а не отсылаем вас к «официальному дилеру».</p>
+      <ul class="about__list">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Собственное конструкторское бюро и цех полного цикла</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Склад запчастей в России — ремонт за дни, а не месяцы</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Сервисные инженеры в 12 городах, поддержка 24/7</li>
+      </ul>
+    </div>
+    <figure class="about__viz reveal" data-delay="1">
+      <div class="big-num"><span class="counter" data-to="2400">0</span>+</div>
+      <figcaption>станков произведено и запущено на производствах по всей России</figcaption>
+      <div class="mini-grid">
+        <div class="mini-cell"><b>12</b><span>городов с сервисными инженерами</span></div>
+        <div class="mini-cell"><b>72 ч</b><span>максимальный срок реакции сервиса</span></div>
+        <div class="mini-cell"><b>50+</b><span>моделей в каталоге</span></div>
+        <div class="mini-cell"><b>2007</b><span>год основания завода</span></div>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ===================== STEPS ===================== -->
+<section class="section" id="steps">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Как мы работаем</span>
+      <h2>От заявки до работающего станка — 4 шага</h2>
+    </div>
+    <div class="steps">
+      <article class="step reveal">
+        <div class="step__n">01</div>
+        <h3>Заявка и аудит задачи</h3>
+        <p>Изучаем ваши детали, материалы и объёмы. Подбираем модель под задачу, а не «что есть на складе».</p>
+      </article>
+      <article class="step reveal" data-delay="1">
+        <div class="step__n">02</div>
+        <h3>Расчёт и договор</h3>
+        <p>Фиксируем цену, сроки и комплектацию в договоре. Помогаем оформить рассрочку или лизинг.</p>
+      </article>
+      <article class="step reveal" data-delay="2">
+        <div class="step__n">03</div>
+        <h3>Производство и доставка</h3>
+        <p>Изготавливаем или комплектуем со склада, привозим и разгружаем на вашей площадке.</p>
+      </article>
+      <article class="step reveal" data-delay="3">
+        <div class="step__n">04</div>
+        <h3>Запуск и обучение</h3>
+        <p>Пусконаладка, пробная деталь, обучение операторов. Передаём станок в работу под ключ.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== LEAD ===================== -->
+<section class="section section--alt lead" id="lead">
+  <div class="wrap lead__grid">
+    <div class="lead__info reveal">
+      <span class="eyebrow">Заявка</span>
+      <h2>Получите расчёт стоимости за 1 рабочий день</h2>
+      <p>Оставьте заявку — инженер свяжется с вами, уточнит задачу и подготовит персональное предложение с ценой, сроками и условиями рассрочки.</p>
+      <div class="lead__contacts">
+        <a href="tel:+78005553535"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>8 800 555-35-35</a>
+        <a href="mailto:sale@stankoprom.ru"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg>sale@stankoprom.ru</a>
+      </div>
+    </div>
+
+    <form class="form reveal" data-delay="1" id="lead-form" novalidate>
+      <div class="form__title">Заявка на расчёт</div>
+      <div class="field" data-field="name">
+        <label for="f-name">Ваше имя *</label>
+        <input id="f-name" name="name" type="text" placeholder="Как к вам обращаться" autocomplete="name">
+        <span class="err">Укажите имя (минимум 2 символа)</span>
+      </div>
+      <div class="field" data-field="phone">
+        <label for="f-phone">Телефон *</label>
+        <input id="f-phone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" autocomplete="tel">
+        <span class="err">Введите корректный номер телефона</span>
+      </div>
+      <div class="field" data-field="msg">
+        <label for="f-msg">Какой станок вас интересует?</label>
+        <textarea id="f-msg" name="msg" rows="3" placeholder="Например: токарный с ЧПУ для валов до 1 метра"></textarea>
+      </div>
+      <button class="btn btn--primary" type="submit">Получить расчёт</button>
+      <p class="form__note">Нажимая кнопку, вы соглашаетесь с политикой обработки персональных данных.</p>
+    </form>
+
+    <div class="form" style="display:none" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  <div class="wrap footer__in">
+    <a class="logo" href="#top">
+      <svg class="logo__mark" viewBox="0 0 34 34" fill="none" aria-hidden="true">
+        <rect x="2" y="2" width="30" height="30" rx="7" stroke="var(--accent)" stroke-width="2.5"/>
+        <path d="M9 22V12l8 6 8-6v10" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Станко<span>Пром</span>
+    </a>
+    <p>© 2007–2026 «СтанкоПром» · Производство металлообрабатывающих станков · г. Екатеринбург</p>
+    <a class="tel" href="tel:+78005553535">8 800 555-35-35</a>
+  </div>
+</footer>
+
+<!-- ===================== MODAL ===================== -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal__backdrop" data-close></div>
+  <div class="modal__box">
+    <button class="modal__close" data-close aria-label="Закрыть окно">
+      <svg viewBox="0 0 16 16" fill="none" stroke-width="2" stroke-linecap="round"><path d="M2 2l12 12M14 2L2 14"/></svg>
+    </button>
+    <div class="modal__title" id="modal-title">Запросить цену</div>
+    <p class="modal__sub">Модель: <b id="modal-product">—</b></p>
+    <form id="modal-form" novalidate style="display:grid;gap:16px">
+      <div class="field" data-field="name">
+        <label for="m-name">Ваше имя *</label>
+        <input id="m-name" name="name" type="text" placeholder="Как к вам обращаться" autocomplete="name">
+        <span class="err">Укажите имя (минимум 2 символа)</span>
+      </div>
+      <div class="field" data-field="phone">
+        <label for="m-phone">Телефон *</label>
+        <input id="m-phone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" autocomplete="tel">
+        <span class="err">Введите корректный номер телефона</span>
+      </div>
+      <button class="btn btn--primary" type="submit">Отправить запрос</button>
+    </form>
+    <div class="form-success" id="modal-success" aria-live="polite">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12.5l2.7 2.7L16 9.5"/></svg>
+      <b>Запрос отправлен</b>
+      <p>Инженер перезвонит в течение рабочего дня и пришлёт точную цену на <span id="modal-success-product">выбранную модель</span>.</p>
+      <button class="btn btn--ghost btn--sm" data-close>Закрыть</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
